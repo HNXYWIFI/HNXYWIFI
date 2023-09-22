@@ -78,7 +78,7 @@ check_md5sum()
 	fi
     remote_firmware_md5=$(cat /tmp/pdv.sha256sum)
     firmware_md5=$(/usr/bin/sha256sum $1 | awk '{print $1}')
-    if [ $remote_firmware_md5 != $firmware_md5 ];then
+    if [ "$remote_firmware_md5" != "$firmware_md5" ];then
         return 0
     else
         return 1
