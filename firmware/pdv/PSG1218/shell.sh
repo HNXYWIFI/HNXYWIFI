@@ -87,10 +87,12 @@ check_md5sum()
 
 flash_pdv()
 {
-	/sbin/mtd_storage.sh reset
 	nvram set restore_defaults=1 && nvram commit
+	mtd_write write /tmp/pdv.bin Firmware_Stub 
+	/sbin/mtd_storage.sh reset
 	/usr/share/hnxywifi/esdialerhn.sh stop
-	mtd_write -r write /tmp/pdv.bin Firmware_Stub
+	reboot
+	
 }
 
 dl_new_firmware()

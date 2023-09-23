@@ -88,8 +88,11 @@ check_md5sum()
 flash_pdv()
 {
 	if [ $1 == "spi" ];then
-        /sbin/mtd_storage.sh reset && nvram set restore_defaults=1 && nvram commit && /usr/share/hnxywifi/esdialerhn.sh stop
-		mtd_write -r write /tmp/pdv.bin Firmware_Stub
+	nvram set restore_defaults=1 && nvram commit
+	mtd_write write /tmp/pdv.bin Firmware_Stub 
+	/sbin/mtd_storage.sh reset
+	/usr/share/hnxywifi/esdialerhn.sh stop
+	reboot
 	elif [ $1 == "nand" ];then
 		dd if=/tmp/pdv.bin of=/tmp/part1.bin bs=1 count=$(printf %d $2)
 		dd if=/tmp/pdv.bin of=/tmp/part2.bin bs=1 skip=$(printf %d $2)
