@@ -144,8 +144,8 @@ index() {
 
 
 board=$board_name
-check_firmware_version
 restore_storage
+check_firmware_version
 if [ $? != 0 ];then
 	echo "检测到新的固件版本，即将进行更新..."
 	case "$board" in
