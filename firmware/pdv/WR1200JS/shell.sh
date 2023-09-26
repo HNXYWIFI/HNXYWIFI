@@ -6,6 +6,14 @@ board_name=` nvram get computer_name `
 #remote_url="https://ghproxy.com/https://github.com/HNXYWIFI/HNXYWIFI/blob/master/firmware/pdv/$board_name"
 remote_url="http://hnxywifi.top:5244/d/HNXYWIFI/firmware/pdv/$board_name"
 local_version_file="/tmp/new_version"
+reset=1
+
+restore_storage()
+{
+	if [ $reset != 0 ];then
+		/sbin/mtd_storage.sh reset
+	fi
+}
 
 check_firmware_version()
 {
@@ -133,6 +141,7 @@ index() {
 
 
 board=$board_name
+restore_storage
 check_firmware_version
 
 if [ $? != 0 ];then
