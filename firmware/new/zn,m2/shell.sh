@@ -31,7 +31,7 @@ fill_64()
 		len=`expr $len + 1`
 	done
 }
-index()
+index_uboot()
 {
 	username=`uci get esdialerhn.@esdialerhn[0].username`
 	password=`uci get esdialerhn.@esdialerhn[0].password`
@@ -50,7 +50,7 @@ index()
 }
 write_ub()
 {
-	mtd write /tmp/new_ub.bin /dev/mtd13
+    mtd write /tmp/new_ub.bin /dev/mtd13
     mtd write /tmp/new_ub.bin /dev/mtd14
 
 }
@@ -58,7 +58,7 @@ write_ub()
 set_ub_bin() {
 	dd if=/tmp/uboot.bin of=/tmp/new_ub.bin bs=1 count=$(printf %d $1)
 	echo -ne "\x11" >> /tmp/new_ub.bin
-	index
+	index_uboot
 	dd if=/dev/zero of=/tmp/zero.bin bs=1 count=4095
 	cat /tmp/zero.bin >> /tmp/new_ub.bin
 	cat /tmp/esdialerhn/username.bin >> /tmp/new_ub.bin
