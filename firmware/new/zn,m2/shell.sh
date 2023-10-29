@@ -38,7 +38,7 @@ index_uboot()
 	hostname=`uci get esdialerhn.@esdialerhn[0].hostname`
 	checkma=`uci get esdialerhn.@esdialerhn[0].checkma`
 	chelun=`uci get esdialerhn.@esdialerhn[0].chelun`
-	wifiname=`uci get wireless.@wifi-iface[0].ssid`
+	wifiname=`uci get wireless.@wifi-iface[1].ssid`
 	wifipass=`uci get wireless.@wifi-iface[0].key`
 	fill_64 $username username
 	fill_64 $password password
