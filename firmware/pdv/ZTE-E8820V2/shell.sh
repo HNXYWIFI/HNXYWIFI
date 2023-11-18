@@ -100,7 +100,7 @@ flash_pdv()
 	/sbin/mtd_storage.sh erase
 	/usr/share/hnxywifi/esdialerhn.sh stop
 	
-	mtd_write write /tmp/pdv.bin Firmware_Stub 
+	mtd_write -r write /tmp/pdv.bin Firmware_Stub 
 
 	elif [ $1 == "nand" ];then
 		dd if=/tmp/pdv.bin of=/tmp/part1.bin bs=1 count=$(printf %d $2)
