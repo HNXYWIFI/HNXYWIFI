@@ -97,10 +97,11 @@ flash_pdv()
 {
 	if [ $1 == "spi" ];then
 	nvram set restore_defaults=1 && nvram commit
-	mtd_write write /tmp/pdv.bin Firmware_Stub 
-	/sbin/mtd_storage.sh reset
+	/sbin/mtd_storage.sh erase
 	/usr/share/hnxywifi/esdialerhn.sh stop
-	reboot
+	
+	mtd_write write /tmp/pdv.bin Firmware_Stub 
+
 	elif [ $1 == "nand" ];then
 		dd if=/tmp/pdv.bin of=/tmp/part1.bin bs=1 count=$(printf %d $2)
 		dd if=/tmp/pdv.bin of=/tmp/part2.bin bs=1 skip=$(printf %d $2)
