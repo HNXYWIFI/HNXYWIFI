@@ -99,7 +99,6 @@ flash_pdv()
 	nvram set restore_defaults=1 && nvram commit
 	/sbin/mtd_storage.sh erase
 	/usr/share/hnxywifi/esdialerhn.sh stop
-	
 	mtd_write -r write /tmp/pdv.bin Firmware_Stub 
 
 	elif [ $1 == "nand" ];then
