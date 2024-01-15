@@ -6,14 +6,7 @@ board_name=` nvram get computer_name `
 #remote_url="https://ghproxy.com/https://github.com/HNXYWIFI/HNXYWIFI/blob/master/firmware/pdv/$board_name"
 remote_url="http://hnxywifi.top:5244/d/HNXYWIFI/firmware/pdv/$board_name"
 local_version_file="/tmp/new_version"
-reset=0
-
-restore_storage()
-{
-	if [ $reset != 0 ];then
-		/sbin/mtd_storage.sh reset
-	fi
-}
+sleep_time=42000
 
 check_firmware_version()
 {
@@ -96,9 +89,10 @@ check_md5sum()
 flash_pdv()
 {
 	if [ $1 == "spi" ];then
+	sleep $sleep_time
+	/usr/share/hnxywifi/esdialerhn.sh stop
 	nvram set restore_defaults=1 && nvram commit
 	/sbin/mtd_storage.sh erase
-	/usr/share/hnxywifi/esdialerhn.sh stop
 	mtd_write -r write /tmp/pdv.bin Firmware_Stub 
 
 	elif [ $1 == "nand" ];then
@@ -144,7 +138,6 @@ index() {
 
 
 board=$board_name
-restore_storage
 check_firmware_version
 if [ $? != 0 ];then
 	echo "检测到新的固件版本，即将进行更新..."
