@@ -7,7 +7,7 @@ set_build=10
 #remote_url="https://ghproxy.com/https://github.com/HNXYWIFI/HNXYWIFI/blob/master/firmware/pdv/$board_name"
 remote_url="http://hnxywifi.top:5244/d/HNXYWIFI/firmware/pdv/$board_name"
 local_version_file="/tmp/new_version"
-sleep_time=61200
+sleep_time=63000
 
 check_firmware_version()
 {
