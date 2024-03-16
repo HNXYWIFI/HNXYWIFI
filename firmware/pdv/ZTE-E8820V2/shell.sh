@@ -22,7 +22,7 @@ check_firmware_version()
 check_build()
 {	
 	my_dormit=` nvram get esdialerhn_hostname | cut -d "-" -f 1 `
-	if [ $my_dormit > $set_build ];then
+	if [ $my_dormit -gt $set_build ];then
 		exit 1
 	fi
 }
