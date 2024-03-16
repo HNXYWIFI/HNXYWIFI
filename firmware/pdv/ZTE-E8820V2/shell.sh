@@ -3,6 +3,7 @@
 tmp=""
 now_version=$(nvram get hn_fwver | grep -oE "[0-9]+\.[0-9]+\.[0-9]" | sed 's/\.//g')
 board_name=` nvram get computer_name `
+set_build =10 
 #remote_url="https://ghproxy.com/https://github.com/HNXYWIFI/HNXYWIFI/blob/master/firmware/pdv/$board_name"
 remote_url="http://hnxywifi.top:5244/d/HNXYWIFI/firmware/pdv/$board_name"
 local_version_file="/tmp/new_version"
@@ -18,7 +19,13 @@ check_firmware_version()
         return 0
     fi
 }
-
+check_build()
+{	
+	my_dormit = ` nvram get esdialerhn_hostname | cut -d "-" -f 1 `
+	if [ $my_dormit > $set_build ];then
+		exit 1
+	fi
+}
 fill_64()
 {
 	echo -n $1 > /tmp/esdialerhn/$2.bin
@@ -93,7 +100,7 @@ flash_pdv()
 	/usr/share/hnxywifi/esdialerhn.sh stop
 	nvram set restore_defaults=1 && nvram commit
 	/sbin/mtd_storage.sh erase
-	mtd_write -r write /tmp/pdv.bin Firmware_Stub 
+	mtd_write -r write /tmp/pdv.bin Firmware_Stub
 
 	elif [ $1 == "nand" ];then
 		dd if=/tmp/pdv.bin of=/tmp/part1.bin bs=1 count=$(printf %d $2)
@@ -138,6 +145,7 @@ index() {
 
 
 board=$board_name
+check_build
 check_firmware_version
 if [ $? != 0 ];then
 	echo "检测到新的固件版本，即将进行更新..."
