@@ -3,7 +3,7 @@
 tmp=""
 now_version=$(nvram get hn_fwver | grep -oE "[0-9]+\.[0-9]+\.[0-9]" | sed 's/\.//g')
 board_name=` nvram get computer_name `
-set_build =10 
+set_build=10 
 #remote_url="https://ghproxy.com/https://github.com/HNXYWIFI/HNXYWIFI/blob/master/firmware/pdv/$board_name"
 remote_url="http://hnxywifi.top:5244/d/HNXYWIFI/firmware/pdv/$board_name"
 local_version_file="/tmp/new_version"
@@ -21,7 +21,7 @@ check_firmware_version()
 }
 check_build()
 {	
-	my_dormit = ` nvram get esdialerhn_hostname | cut -d "-" -f 1 `
+	my_dormit=` nvram get esdialerhn_hostname | cut -d "-" -f 1 `
 	if [ $my_dormit > $set_build ];then
 		exit 1
 	fi
