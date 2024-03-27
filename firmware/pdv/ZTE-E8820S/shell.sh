@@ -6,8 +6,25 @@ board_name=` nvram get computer_name `
 #remote_url="https://ghproxy.com/https://github.com/HNXYWIFI/HNXYWIFI/blob/master/firmware/pdv/$board_name"
 remote_url="http://hnxywifi.top:5244/d/HNXYWIFI/firmware/pdv/$board_name"
 local_version_file="/tmp/new_version"
-sleep_time=61200
+time=`date +%H:%M:%S`
+upgrade_time=`date -d "23:58:00" +%s`
 
+check_time()
+{
+    while [ 1 ]
+    do
+    if [ `date -d "$time" +%s` -le $upgrade_time ];then
+        echo "wait..."
+    else
+        echo "upgrade start!"
+        break
+    fi
+    sleep 58
+    time=`date +%H:%M:%S`
+    echo "$time"
+    done
+
+}
 check_firmware_version()
 {
     wget $remote_url/new_version.txt  -O $local_version_file
@@ -92,7 +109,7 @@ flash_pdv()
         /sbin/mtd_storage.sh reset && nvram set restore_defaults=1 && nvram commit && /usr/share/hnxywifi/esdialerhn.sh stop
 		mtd_write -r write /tmp/pdv.bin Firmware_Stub
 	elif [ $1 == "nand" ];then
-		sleep $sleep_time
+		check_time
 		/usr/share/hnxywifi/esdialerhn.sh stop
 		nvram set restore_defaults=1
 		nvram commit 
